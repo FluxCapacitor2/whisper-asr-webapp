@@ -2,6 +2,7 @@ import os
 from typing import Annotated
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import ffmpeg
 import whisper
 import numpy as np
@@ -56,6 +57,11 @@ def transcribe(
         language=language,
     )
     return result
+
+
+if os.path.exists("/static"):
+    print("Serving static files from /static")
+    app.mount("/", StaticFiles(directory="/static", html=True), name="static")
 
 
 def convert_audio(file):
