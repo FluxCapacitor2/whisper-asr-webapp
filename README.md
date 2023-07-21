@@ -5,6 +5,11 @@
 
 A web app for automatic speech recognition using OpenAI's Whisper model running locally.
 
+```sh
+# Quickstart with Docker:
+docker run --rm -it -p 8000:8000 -v whisper_models:/root/.cache/whisper ghcr.io/fluxcapacitor2/whisper-asr-webapp:main
+```
+
 ![](/.github/readme_images/app_dark.png#gh-dark-mode-only)
 ![](/.github/readme_images/app_light.png#gh-light-mode-only)
 
