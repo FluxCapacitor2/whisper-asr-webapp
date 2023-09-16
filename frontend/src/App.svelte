@@ -47,7 +47,7 @@
 
     let fileName = files.item(0).name;
 
-    await fetch("http://localhost:8000/transcribe", {
+    await fetch("/transcribe", {
       method: "POST",
       body: formData,
     })

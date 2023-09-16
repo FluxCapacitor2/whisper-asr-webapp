@@ -12,7 +12,7 @@
 
   models.then((data) => {
     if (data[id] === false) {
-      fetch(`http://localhost:8000/size?model=${id}`)
+      fetch(`/size?model=${id}`)
         .then((res) => res.json())
         .then((modelSize) => (size = modelSize));
     }
