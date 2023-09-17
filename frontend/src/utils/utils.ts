@@ -13,7 +13,7 @@ export function fileSize(fileSize: number) {
 }
 
 export async function fetchModels() {
-  const res = await fetch("http://localhost:8000/models");
+  const res = await fetch("/models");
   return await res.json();
 }
 
