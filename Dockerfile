@@ -5,10 +5,11 @@ WORKDIR /app
 COPY frontend/package.json ./
 COPY frontend/package-lock.json ./
 RUN npm install
+
 COPY frontend/ ./
 RUN npm run build
 
-FROM python:3.11-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \

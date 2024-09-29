@@ -15,14 +15,14 @@ url = "https://download.pytorch.org/whl/cpu"
 priority = "supplemental"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-openai-whisper = "^20230314"
-requests = "^2.31.0"
-fastapi = "^0.100.0"
-numba = "^0.57.1"
-uvicorn = {extras = ["standard"], version = "^0.23.1"}
-python-multipart = "^0.0.6"
-torch = "2.0.1+cpu"
+python = "^3.12"
+openai-whisper = "^20240927"
+requests = "^2.32.3"
+fastapi = "^0.115.0"
+numba = "^0.60.0"
+uvicorn = {extras = ["standard"], version = "^0.31.0"}
+python-multipart = "^0.0.11"
+torch = "2.4.1+cpu"
 ffmpeg-python = "^0.2.0"
 
 

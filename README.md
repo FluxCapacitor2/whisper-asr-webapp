@@ -43,7 +43,7 @@ The easiest way to get started is by using Docker. You can use the premade `run.
 
 ```sh
 docker build . -t fluxcapacitor2/whisper-asr-webapp:local-dev
-docker run -p 8000:8000 --rm -it fluxcapacitor2/whisper-asr-webapp:local-dev
+docker run -p 8000:8000 -v whisper_models:/root/.cache/whisper --rm -it fluxcapacitor2/whisper-asr-webapp:local-dev
 ```
 
 This will build and run a Docker container that hosts both the frontend and backend on port 8000.
