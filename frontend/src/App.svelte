@@ -11,6 +11,7 @@
   import type { WhisperResult } from "./types/WhisperResult";
   import { fetchModels } from "./utils/utils";
 
+  let task: string = "transcribe";
   let files: FileList;
   let model: string = "base";
   let result: WhisperResult;
@@ -35,6 +36,7 @@
       return;
     }
     const formData = new FormData();
+    formData.set("task", task);
     formData.set("file", files.item(0));
     formData.set("model", model);
     formData.set("language", language);
@@ -71,6 +73,10 @@
   $: if (!loading) {
     models = fetchModels();
   }
+
+  $: if (language === "english" || model === "turbo") {
+    task = "transcribe";
+  }
 </script>
 
 <div class="max-w-3xl mx-auto mt-8">
@@ -98,7 +104,40 @@
 
       <div class="flex justify-between gap-6">
         <div class="flex flex-col gap-2 w-full">
-          <p class="text-xs uppercase font-bold">
+          <label for="language" class="text-xs uppercase font-bold">
+            Select Language
+            {#if model.includes(".en")}
+              <Tooltip
+                tip="You have selected an English-only model. Language selection is disabled."
+              >
+                <CircleQuestion
+                  class="fill-gray-600 dark:fill-gray-400 w-4 h-4 ml-1 -mb-0.5"
+                />
+              </Tooltip>
+            {/if}
+          </label>
+
+          <LanguageSelect bind:language english={model.includes(".en")} />
+        </div>
+        
+          <div class="flex flex-col gap-2 w-full">
+            <label for="task" class="text-xs uppercase font-bold">
+              Translation
+            </label>
+
+            <select
+              name="language"
+              bind:value={task}
+              disabled={language === "english" || model === "turbo"}
+              class="dark:bg-gray-700 dark:text-white disabled:text-gray-400"
+            >
+              <option value="transcribe">Keep as-is</option>
+              <option value="translate">Translate to English</option>
+            </select>
+          </div>
+
+        <div class="flex flex-col gap-2 w-full">
+          <p class="text-xs uppercase font-bold mb-0.5">
             Per-word timestamps
             <Tooltip
               tip={"If enabled, the model will attempt to add a timestamp to every individual word. This will increase the required processing time."}
@@ -145,25 +184,10 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col gap-2 w-full">
-          <label for="language" class="text-xs uppercase font-bold">
-            Select Language
-            {#if model.includes(".en")}
-              <Tooltip
-                tip="You have selected an English-only model. Language selection is disabled."
-              >
-                <CircleQuestion
-                  class="fill-gray-600 dark:fill-gray-400 w-4 h-4 ml-1 -mb-0.5"
-                />
-              </Tooltip>
-            {/if}
-          </label>
-
-          <LanguageSelect bind:language english={model.includes(".en")} />
-        </div>
       </div>
+
       <div class="flex flex-col gap-2 w-full">
-        <label for="model" class="text-xs uppercase font-bold">
+        <label for="initial-prompt" class="text-xs uppercase font-bold">
           Initial Prompt
           <Tooltip
             tip={`Optional text to provide as a prompt for the first window. This can be used to provide, or "prompt-engineer" a context for transcription, e.g. custom vocabularies or proper nouns to make it more likely to predict those word correctly.`}
@@ -175,6 +199,7 @@
         </label>
         <textarea
           class="col-span-2 dark:text-white dark:placeholder:text-gray-400 dark:bg-gray-700"
+          id="initial-prompt"
           bind:value={initialPrompt}
         />
       </div>
@@ -183,6 +208,7 @@
           >{loading ? "Transcribing..." : "Transcribe"}</Button
         >
       </div>
+
     </form>
     <div bind:this={transcript}>
       {#if result}

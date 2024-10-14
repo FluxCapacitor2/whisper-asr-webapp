@@ -35,12 +35,19 @@ def models():
     )
     for model in whisper.available_models():
         models[model] = os.path.exists(f"{root}/{model}.pt")
+        # Some models are aliases for others; e.g. "turbo" -> "large-v3-turbo".
+        # If a model file with an aliased name is present, the model is already downloaded and should be marked as such.
+        for other, url in whisper._MODELS.items():
+            if url == whisper._MODELS[model] and os.path.exists(f"{root}/{other}.pt"):
+                models[model] = True
+    
     return models
 
 
 @app.post("/transcribe")
 def transcribe(
     file: Annotated[UploadFile, File()],
+    task: Annotated[str, Form()] = "transcribe",
     model: Annotated[str, Form()] = "base",
     initial_prompt: Annotated[str, Form()] = None,
     word_timestamps: Annotated[bool, Form()] = False,
@@ -52,9 +59,10 @@ def transcribe(
     result = whisper_instance.transcribe(
         audio=np_array,
         verbose=True,
+        task=task,
         initial_prompt=initial_prompt,
         word_timestamps=word_timestamps,
-        language=language,
+        language=language if language != "" else None,
     )
     return result
 

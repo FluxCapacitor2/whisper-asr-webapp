@@ -64,3 +64,19 @@
     <ModelSelectOption id="medium.en" name="Medium" bind:model {models} />
   </div>
 </fieldset>
+
+<fieldset>
+  <legend class="text-xs uppercase font-bold mb-2">
+    Turbo model
+    <Tooltip
+      tip="An optimized version of the Large model that transcibes much faster with a minimal reduction in accuracy."
+    >
+      <CircleQuestion
+        class="fill-gray-400 dark:fill-gray-500 w-4 h-4 -mb-0.5"
+      />
+    </Tooltip>
+  </legend>
+  <div class="grid grid-cols-5 gap-2 justify-around">
+    <ModelSelectOption id="turbo" name="Turbo" bind:model {models} />
+  </div>
+</fieldset>

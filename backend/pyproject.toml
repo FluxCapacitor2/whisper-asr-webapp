@@ -16,7 +16,7 @@ priority = "supplemental"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-openai-whisper = "^20240927"
+openai-whisper = "^20240930"
 requests = "^2.32.3"
 fastapi = "^0.115.0"
 numba = "^0.60.0"
